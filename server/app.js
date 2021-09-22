@@ -13,18 +13,20 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const config = require('./src/config/key');
 const { User } = require('./src/models/User');
 const { auth } = require('./src/middleware/auth')
 
-
 mongoose
-.connect(config.mongoURI)
+.connect(process.env.MONGO_URI)
 .then(() => console.log("3 2 1 Lift Off ."))
 .catch((e) => console.log('MongoDB error: ', e));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+	res.send('Hello World!');
+});
+
+app.get('/api/hello', (req, res) => {
+	res.send('back connected!');
 });
 
 app.post('/api/users/register', (req, res) => {
@@ -82,6 +84,6 @@ app.get('/api/users/logout', auth, (req, res) => {
 	});
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(5000, () => {
   console.log("Engine On 우주로 ~")
 });
