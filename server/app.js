@@ -41,11 +41,11 @@ app.post('/api/users/register', (req, res) => {
 });
 
 app.post('/api/users/login', (req, res) => {
-	User.findOne({ email: req.body.email }, (err, user) => {
+	User.findOne({ id: req.body.id }, (err, user) => {
 		if(!user) {
 			return res.json({
 				loginSuccess: false,
-				message: "존재하지 않는 이메일 입니다."
+				message: "존재하지 않는 아이디 입니다."
 			});
 		}
 		user.comparePassword(req.body.password, (err, isMatch) => {
@@ -72,8 +72,11 @@ app.get('/api/users/auth', auth, (req, res) => {
 		_id: req.user._id,
 		isAdmin: req.user.role === 0 ? false : true,
 		isAuth: true,
+		id: req.user.email,
 		email: req.user.email,
-		name: req.user.name
+		name: req.user.name,
+		division: req.user.division,
+		activeStudyGroupList: req.user.activeStudyGroupList
 	});
 });
 
