@@ -3,15 +3,29 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../_actions/user_action';
 import Axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import 'antd/dist/antd.css';
+import { TreeSelect } from 'antd';
+const { TreeNode } = TreeSelect;
+
 function RegisterPage(props) {
     const dispatch = useDispatch();
 
+	const [Id, setId] = useState("")
     const [Email, setEmail] = useState("")
     const [Name, setName] = useState("")
     const [Password, setPassword] = useState("")
     const [ConfirmPassword, setConfirmPassword] = useState("")
-
-
+	const [Division, setDivision] = useState("");
+	
+    const onDivisionHandler = (Division) => {
+    	setDivision(Division);
+		console.log(Division);
+    };
+	
+	const onIdHandler = (event) => {
+        setId(event.currentTarget.value)
+    }
+	
     const onEmailHandler = (event) => {
         setEmail(event.currentTarget.value)
     }
@@ -36,9 +50,11 @@ function RegisterPage(props) {
         }
 
         let body = {
+			id: Id,
             email: Email,
             password: Password,
-            name: Name
+            name: Name,
+			division: Division,
         }
         dispatch(registerUser(body))
             .then(response => {
@@ -60,21 +76,40 @@ function RegisterPage(props) {
             <form style={{ display: 'flex', flexDirection: 'column' }}
                 onSubmit={onSubmitHandler}
             >
-                <label>Email</label>
-                <input type="email" value={Email} onChange={onEmailHandler} />
-
-                <label>Name</label>
-                <input type="text" value={Name} onChange={onNameHandler} />
-
-                <label>Password</label>
+				<label>아이디</label>
+                <input type="text" value={Id} onChange={onIdHandler} />
+				
+				<label>비밀번호</label>
                 <input type="password" value={Password} onChange={onPasswordHandler} />
 
-                <label>Confirm Password</label>
+                <label>비밀번호 확인</label>
                 <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler} />
+				
+                <label>이메일</label>
+                <input type="email" value={Email} onChange={onEmailHandler} />
 
+                <label>이름</label>
+                <input type="text" value={Name} onChange={onNameHandler} />
+				
+				<label>소속</label>
+				<TreeSelect
+					showSearch
+					style={{ width: '100%' }}
+					value={Division}
+					dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+					placeholder="Please select"
+					allowClear
+					treeDefaultExpandAll
+					onChange={onDivisionHandler}
+					>
+					<TreeNode value="army" title="육군"></TreeNode>
+					<TreeNode value="navy" title="해군"></TreeNode>
+					<TreeNode value="airforce" title="공군"></TreeNode>
+				</TreeSelect>
+				
                 <br />
                 <button type="submit">
-                    회원 가입
+                    가입
                 </button>
             </form>
         </div>
@@ -82,3 +117,4 @@ function RegisterPage(props) {
 }
 
 export default withRouter(RegisterPage)
+

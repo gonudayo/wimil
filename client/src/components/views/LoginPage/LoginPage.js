@@ -7,11 +7,11 @@ import { withRouter } from 'react-router-dom';
 function LoginPage(props) {
 	const dispatch = useDispatch();
 
-    const [Email, setEmail] = useState("")
+    const [Id, setId] = useState("")
     const [Password, setPassword] = useState("")
 
-    const onEmailHandler = (event) => {
-        setEmail(event.currentTarget.value)
+    const onIdHandler = (event) => {
+        setId(event.currentTarget.value)
     }
 
     const onPasswordHandler = (event) => {
@@ -22,7 +22,7 @@ function LoginPage(props) {
         event.preventDefault();
 
         let body = {
-            email: Email,
+            id: Id,
             password: Password
         }
 
@@ -44,8 +44,8 @@ function LoginPage(props) {
             <form style={{ display: 'flex', flexDirection: 'column' }}
                 onSubmit={onSubmitHandler}
             >
-                <label>Email</label>
-                <input type="email" value={Email} onChange={onEmailHandler} />
+                <label>ID</label>
+                <input type="text" value={Id} onChange={onIdHandler} />
                 <label>Password</label>
                 <input type="password" value={Password} onChange={onPasswordHandler} />
                 <br />

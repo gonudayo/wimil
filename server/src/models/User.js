@@ -26,13 +26,15 @@ const userSchema = mongoose.Schema({
 	name: {
 		type: String,
 		minlength: 2,
-		maxlength: 50
+		maxlength: 30
 	},
 	division: {
-		type: String
+		type: String,
+		default: null
 	},
 	activeStudyGroupList: {
-		type: String
+		type: String,
+		default: null
 	},
 	token: {
 		type: String
