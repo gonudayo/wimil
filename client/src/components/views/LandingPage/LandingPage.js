@@ -25,6 +25,7 @@ function LandingPage(props) {
             , width: '100%', height: '100vh'
         }}>
 			<h1>위드 밀리터리</h1>
+			<br/>
 			<button onClick={onClickHandler}>
 				로그아웃
 			</button>

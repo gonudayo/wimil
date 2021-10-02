@@ -35,6 +35,9 @@ function LoginPage(props) {
                 }
             })
     }
+	const onClickHandler = () => {
+		props.history.push("/register")
+	}
 	
 	return (
 		<div style={{
@@ -51,6 +54,10 @@ function LoginPage(props) {
                 <br />
                 <button type="submit">
                     Login
+                </button>
+				<br />
+<button onClick={onClickHandler}>
+                    계정이 없으신가요? 
                 </button>
             </form>
         </div>
