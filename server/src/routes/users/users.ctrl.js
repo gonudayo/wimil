@@ -4,7 +4,6 @@ const output = {
   // 로그인 확인 후 정보 표시
   auth: (req, res) => {
     res.status(200).json({
-	  _id: req.user._id,
       isAuth: true,
       id: req.user.id,
       email: req.user.email,
@@ -22,8 +21,8 @@ const output = {
   // 로그아웃 처리
   logout: (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, user) => {
-      if (err) return res.json({ success: false, err });
-      return res.cookie('x_auth', '').status(200).send({ success: true });
+      if (err) return res.json({ logoutSuccess: false, err });
+      return res.cookie('x_auth', '').status(200).send({ logoutSuccess: true });
     });
   },
 };
@@ -58,7 +57,6 @@ const process = {
           if (err) return res.status(400).send(err);
           return res.cookie('x_auth', user.token).status(200).json({
             loginSuccess: true,
-			  userId: user._id,
           });
         });
       });
@@ -77,21 +75,21 @@ const process = {
         if (ID) {
           return res
             .status(409)
-            .json({ success: false, isIdInUse: true, isEmailInUse: true });
+            .json({ registerSuccess: false, isIdInUse: true, isEmailInUse: true });
         }
         return res
           .status(409)
-          .json({ success: false, isIdInUse: false, isEmailInUse: true });
+          .json({ registerSuccess: false, isIdInUse: false, isEmailInUse: true });
       }
     } catch (error) {
-      return res.status(500).json({ success: false });
+      return res.status(500).json({ registerSuccess: false });
     }
 
     // 데이터베이스 저장
     user.save((err, userInfo) => {
-      if (err) return res.json({ success: false, err });
+      if (err) return res.json({ registerSuccess: false, err });
       return res.status(200).json({
-        success: true,
+        registerSuccess: true,
       });
     });
   },
